@@ -1,43 +1,28 @@
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class VaxaExo {
     public static void main(String[] args) {
-        vendre(TypeObjet.JELLOPY, "billy the kid 94");
-        vendre(TypeObjet.OPAL, "billy the kid 94");
-        vendre(TypeObjet._3CARAT_DIAMOND, "billy the kid 94");
-        vendre(TypeObjet.GARLET, "billy the kid 94");
-        vendre(TypeObjet.SCELL, "billy the kid 94");
-        vendre(TypeObjet.ZARGON, "billy the kid 94");
-        vendre(TypeObjet.AQUAMARINE, "Tommy");
-        vendre(TypeObjet.AMETHYST, "Tommy");
-        vendre(TypeObjet.ZIRCON, "Tommy");
-        vendre(TypeObjet._1CARAT_DIAMOND, "billy the kid 94");
-        vendre(TypeObjet._2CARAT_DIAMOND, "billy the kid 94");
-        vendre(TypeObjet.PEARL, "billy the kid 94");
-        vendre(TypeObjet.EMERALD, "billy the kid 94");
-        vendre(TypeObjet.GRIT, "Tommy");
-        vendre(TypeObjet.RUBY, "Tommy");
-        vendre(TypeObjet.CURSED_RUBY, "billy the kid 94");
-        vendre(TypeObjet.CRACKED_DIAMOND, "billy the kid 94");
-        vendre(TypeObjet._17CARAT_DIAMOND, "billy the kid 94");
-        vendre(TypeObjet.GOLD, "billy the kid 94");
-        vendre(TypeObjet.FINE_GRIT, "billy the kid 94");
-        vendre(TypeObjet.FINE_GRIT, "Gary");
+        vendre(Arrays.asList(TypeObjet.JELLOPY, TypeObjet.AMETHYST, TypeObjet._3CARAT_DIAMOND), "billy the kid 94");
+        vendre(Arrays.asList(TypeObjet.CURSED_RUBY, TypeObjet.OPAL, TypeObjet.FINE_GRIT), "billy the kid 94");
+        vendre(Arrays.asList(TypeObjet.ZARGON, TypeObjet.EMERALD, TypeObjet.GARLET), "billy the kid 94");
+        vendre(Arrays.asList(TypeObjet.CRACKED_DIAMOND, TypeObjet.CRACKED_DIAMOND, TypeObjet.CRACKED_DIAMOND, TypeObjet.CRACKED_DIAMOND), "billy the kid 94");
+        vendre(Arrays.asList(), "billy the kid 94");
     }
 
-    public static void vendre(TypeObjet objet, String nom) {
+    public static void vendre(List<TypeObjet> objets, String nom) {
         nom = nettoyerNom(nom);
         if (garyBug(nom)) {
             return;
         }
 
-        int zeny = determinerZeny(objet);
+        int zeny = determinerZeny(objets);
         traiterPrix(zeny, nom);
     }
 
-    private static int determinerZeny(TypeObjet objet) {
-        return objet.prix;
+    private static int determinerZeny(List<TypeObjet> objets) {
+        return objets.stream().mapToInt(value -> value.prix).sum();
     }
 
     private static boolean garyBug(String nom) {
@@ -112,36 +97,5 @@ public class VaxaExo {
         return Arrays.stream(strClean.split("((?=[ -])|(?<=[ -]))"))
                 .map(s -> s.matches("^[a-z]+$") ? s.substring(0, 1).toUpperCase() + s.substring(1) : s)
                 .collect(Collectors.joining());
-    }
-
-    public enum TypeObjet {
-        JELLOPY(3, "Jellopy"),
-        OPAL(3000, "Opal"),
-        _3CARAT_DIAMOND(27500, "3carat Diamond"),
-        GARLET(20, "Garlet"),
-        SCELL(80, "Scell"),
-        ZARGON(240, "Zargon"),
-        AQUAMARINE(3000, "Aquamarine"),
-        AMETHYST(3000, "Amethyst"),
-        ZIRCON(3000, "Zircon"),
-        _1CARAT_DIAMOND(5000, "1carat Diamond"),
-        _2CARAT_DIAMOND(12500, "2carat Diamond"),
-        PEARL(3000, "Pearl"),
-        EMERALD(3000, "Emerald"),
-        GRIT(153, "Grit"),
-        RUBY(3000, "Ruby"),
-        CURSED_RUBY(300, "Cursed Ruby"),
-        CRACKED_DIAMOND(5, "Cracked Diamond"),
-        _17CARAT_DIAMOND(3000000, "17carat Diamond"),
-        GOLD(75000, "Gold"),
-        FINE_GRIT(60, "Fine grit");
-
-        public final int prix;
-        public final String libelle;
-
-        TypeObjet(int prix, String libelle) {
-            this.prix = prix;
-            this.libelle = libelle;
-        }
     }
 }
