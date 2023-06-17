@@ -6,9 +6,25 @@ public class VaxaExo {
         vendre("Jellopy", "billy the kid 94");
         vendre("Opal", "billy the kid 94");
         vendre("3carat Diamond", "billy the kid 94");
-        vendre("", "billy the kid 94");
-        vendre("Jellopy", "Gary");
-        vendre("Garlet", "Tommy");
+        vendre("Garlet", "billy the kid 94");
+        vendre("Scell", "billy the kid 94");
+        vendre("Zargon", "billy the kid 94");
+        vendre("Aquamarine", "Tommy");
+        vendre("Amethyst", "Tommy");
+        vendre("Zircon", "Tommy");
+        vendre("1carat Diamond", "billy the kid 94");
+        vendre("2carat Diamond", "billy the kid 94");
+        vendre("Pearl", "billy the kid 94");
+        vendre("Emerald", "billy the kid 94");
+        vendre("Grit", "Tommy");
+        vendre("Ruby", "Tommy");
+        vendre("Cursed Ruby", "billy the kid 94");
+        vendre("Cracked Diamond", "billy the kid 94");
+        vendre("17carat Diamond", "billy the kid 94");
+        vendre("Gold", "billy the kid 94");
+        vendre("Fine grit", "billy the kid 94");
+        vendre("50carat Diamond", "John");
+        vendre("Fine grit", "Gary");
     }
 
     public static void vendre(String objet, String nom) {
@@ -28,7 +44,41 @@ public class VaxaExo {
             return 3000;
         } else if ("3carat Diamond".equals(objet)) {
             return 27500;
-        } else {
+        } else if ("Garlet".equals(objet)) {
+            return 20;
+        } else if ("Scell".equals(objet)) {
+            return 80;
+        } else if ("Zargon".equals(objet)) {
+            return 240;
+        } else if ("Aquamarine ".equals(objet)) {
+            return 3000;
+        } else if ("Amethyst ".equals(objet)) {
+            return 3000;
+        } else if ("Zircon ".equals(objet)) {
+            return 3000;
+        } else if ("1carat Diamond".equals(objet)) {
+            return 5000;
+        } else if ("2carat Diamond".equals(objet)) {
+            return 12500;
+        } else if ("Pearl".equals(objet)) {
+            return 3000;
+        } else if ("Emerald".equals(objet)) {
+            return 3000;
+        } else if ("Grit".equals(objet)) {
+            return 153;
+        } else if ("Ruby".equals(objet)) {
+            return 3000;
+        } else if ("Cursed Ruby".equals(objet)) {
+            return 300;
+        } else if ("Cracked Diamond".equals(objet)) {
+            return 5;
+        } else if ("17carat Diamond".equals(objet)) {
+            return 3000000;
+        } else if ("Gold".equals(objet)) {
+            return 75000;
+        } else if ("Fine grit".equals(objet)) {
+            return 60;
+        }  else {
             return -1;
         }
     }
@@ -62,7 +112,7 @@ public class VaxaExo {
     }
 
     private static void traiterPrixInferieur0() {
-        garyParle("Je ne comprends pas.");
+        garyParle("Je n'accepte pas cet objet.");
     }
 
     private static void traiterPrixEgal0() {
