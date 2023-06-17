@@ -1,162 +1,109 @@
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class VaxaExo {
     public static void main(String[] args) {
-        vendre(350, " ----    [__dark---SasUke- -le - - - - - -  ---- - U(b)er]  --  ");
-        vendre(0, "Billy");
-        vendre(55000, "jean-pierre Papin");
-        vendre(-500, " ----    [gaRY]  --  ");
-        vendre(1, "Timmy");
-        vendre(152000, "Danny");
-        vendre(800001, "Sassi");
+        vendre("Jellopy", "billy the kid 94");
+        vendre("Opal", "billy the kid 94");
+        vendre("3carat Diamond", "billy the kid 94");
+        vendre("", "billy the kid 94");
+        vendre("Jellopy", "Gary");
+        vendre("Garlet", "Tommy");
     }
 
-    private static void vendre(int zeny, String nom) {
-        String nomDuJoueur = nettoyerNom(nom);
-
-        if (EstCeQueLeNomDuJoueurEstGary(nomDuJoueur)) {
-            System.out.println("Boum !");
+    public static void vendre(String objet, String nom) {
+        nom = nettoyerNom(nom);
+        if (garyBug(nom)) {
             return;
         }
 
-        String niveauDeVente = obtenirNiveauDeVente(zeny);
-        reponseDeGary(zeny, nomDuJoueur, niveauDeVente);
+        int zeny = determinerZeny(objet);
+        traiterPrix(zeny, nom);
     }
 
-    private static boolean EstCeQueLeNomDuJoueurEstGary(String nomDuJoueur) {
-        return nomDuJoueur.equals("Gary");
-    }
-
-    private static String nettoyerNom(String nom) {
-
-        StringBuilder nomDuJoueur = new StringBuilder();
-
-        for (Character character : nom.toCharArray()) {
-            if (Character.isLetter(character) || Character.isSpaceChar(character) || character.equals('-')) {
-                nomDuJoueur.append((character + "").toLowerCase());
-            }
+    private static int determinerZeny(String objet) {
+        if ("Jellopy".equals(objet)) {
+            return 3;
+        } else if ("Opal".equals(objet)) {
+            return 3000;
+        } else if ("3carat Diamond".equals(objet)) {
+            return 27500;
+        } else {
+            return -1;
         }
+    }
 
-        while (nomDuJoueurEstIlSale(nomDuJoueur.toString())) {
-            for (int i = 0; i < nomDuJoueur.length(); i++) {
-                if (i + 1 != nomDuJoueur.length() && String.valueOf(nomDuJoueur.charAt(i)).equals(String.valueOf(nomDuJoueur.charAt(i + 1))) && String.valueOf(nomDuJoueur.charAt(i)).equals("-")) {
-                    nomDuJoueur.deleteCharAt(i);
-                }
-                if (i + 1 != nomDuJoueur.length() && String.valueOf(nomDuJoueur.charAt(i)).equals(String.valueOf(nomDuJoueur.charAt(i + 1))) && String.valueOf(nomDuJoueur.charAt(i)).equals(" ")) {
-                    nomDuJoueur.deleteCharAt(i);
-                }
-                if (i + 1 != nomDuJoueur.length() && String.valueOf(nomDuJoueur.charAt(i)).equals(" ") && String.valueOf(nomDuJoueur.charAt(i + 1)).equals("-")) {
-                    nomDuJoueur.deleteCharAt(i + 1);
-                }
-                if (i + 1 != nomDuJoueur.length() && String.valueOf(nomDuJoueur.charAt(i)).equals("-") && String.valueOf(nomDuJoueur.charAt(i + 1)).equals(" ")) {
-                    nomDuJoueur.deleteCharAt(i);
-                }
-                if (i + 1 != nomDuJoueur.length() && String.valueOf(nomDuJoueur.charAt(i)).equals("-") && Character.isLetter(nomDuJoueur.charAt(i+1))) {
-                    String letter = String.valueOf(nomDuJoueur.charAt(i + 1)).toUpperCase();
-                    nomDuJoueur.deleteCharAt(i+1);
-                    nomDuJoueur.replace(i+1, i+1, letter);
-                }
-                if (i + 1 != nomDuJoueur.length() && String.valueOf(nomDuJoueur.charAt(i)).equals(" ") && Character.isLetter(nomDuJoueur.charAt(i+1))) {
-                    String letter = String.valueOf(nomDuJoueur.charAt(i + 1)).toUpperCase();
-                    nomDuJoueur.deleteCharAt(i+1);
-                    nomDuJoueur.replace(i+1, i+1, letter);
-                }
-                if (String.valueOf(nomDuJoueur.charAt(0)).equals(" ") && Character.isLetter(nomDuJoueur.charAt(1))) {
-                    nomDuJoueur.deleteCharAt(0);
-                }
-                if (String.valueOf(nomDuJoueur.charAt(nomDuJoueur.length() - 1)).equals(" ") && Character.isLetter(nomDuJoueur.charAt(nomDuJoueur.length() - 2))) {
-                    nomDuJoueur.deleteCharAt(nomDuJoueur.length()-1);
-                }
-            }
+    private static boolean garyBug(String nom) {
+        if (nom.equals("Gary")) {
+            System.out.println("Boum !");
+            return true;
         }
-        return nomDuJoueur.toString().substring(0, 1).toUpperCase() + nomDuJoueur.substring(1);
+        return false;
     }
 
-    private static boolean nomDuJoueurEstIlSale(String nomDuJoueur) {
-        return nomDuJoueur.toString().contains("--") || nomDuJoueur.toString().contains("- ") || nomDuJoueur.toString().contains(" -") || nomDuJoueur.toString().contains("  ");
-    }
-
-    private static String obtenirNiveauDeVente(int zeny) {
+    private static void traiterPrix(int zeny, String nom) {
         if (zeny < 0) {
-            return "ARNAQUE";
+            traiterPrixInferieur0();
+        } else if (zeny == 0) {
+            traiterPrixEgal0();
+        } else if (zeny == 1) {
+            traiterPrixEgal1();
+        } else if (zeny <= 1000) {
+            traiterPrixInferieurEgal1000(zeny, nom);
+        } else if (zeny <= 100000) {
+            traiterPrixInferieurEgal100000(zeny, nom);
+        } else {
+            traiterPrixSuperieur100000(zeny, nom);
         }
-
-        if (zeny < 1) {
-            return "NUL";
-        }
-
-        if (zeny == 1) {
-            return "MEDIOCRE";
-        }
-
-        if (zeny > 1 && zeny <= 1_000) {
-            return "OK";
-        }
-
-        if (zeny > 1_000 && zeny <= 100_000) {
-            return "BON";
-        }
-
-        return "SUPER";
     }
 
-    private static void reponseDeGary(int zeny, String nom, String niveauDeVente) {
-        StringBuilder reponse = new StringBuilder();
-        reponse.append("Gary : ");
+    private static void garyParle(String s) {
+        System.out.println("Gary : " + s);
+    }
 
-        if (niveauDeVente.equals("ARNAQUE")) {
-            reponse.append("Je ne comprends pas.");
+    private static void traiterPrixInferieur0() {
+        garyParle("Je ne comprends pas.");
+    }
+
+    private static void traiterPrixEgal0() {
+        garyParle("...");
+    }
+
+    private static void traiterPrixEgal1() {
+        garyParle("Voilà ton zeny, du balai !");
+    }
+
+    private static void traiterPrixInferieurEgal1000(int zeny, String nom) {
+        garyParle("Voilà vos " + zeny + "z, " + nom);
+    }
+
+    private static void traiterPrixInferieurEgal100000(int zeny, String nom) {
+        garyParle("Voilà voz " + zeny + "z, cher " + nom + ". Au plaisir de vous revoir bientôt !");
+    }
+
+    private static void traiterPrixSuperieur100000(int zeny, String nom) {
+        String message = "Voilà vos " + zeny + "z, Maître " + nom + ". Laissez moi vous remercier à la hauteur de votre statut :";
+        int nbMerci = zeny / 100000;
+        for (int i = 0; i < nbMerci; i++) {
+            message += " Merci";
         }
-
-        if (niveauDeVente.equals("NUL")) {
-            reponse.append(remerciementDeGaryNul());
-        }
-
-        if (niveauDeVente.equals("MEDIOCRE")) {
-            reponse.append(remerciementDeGaryMediocre());
-        }
-
-        if (niveauDeVente.equals("OK")) {
-            reponse.append(rendreLaMonnaie(zeny, nom));
-        }
-
-        if (niveauDeVente.equals("BON")) {
-            reponse.append(rendreLaMonnaie(zeny, nom));
-            reponse.append(remerciementDeGaryBon());
-        }
-
-        if (niveauDeVente.equals("SUPER")) {
-            reponse.append(rendreLaMonnaie(zeny, nom));
-            reponse.append(marqueDeRespectDeGary(nom));
-            reponse.append(remerciementDeGarySuper(zeny));
-        }
-        System.out.println(reponse);
+        message += " !";
+        garyParle(message);
     }
 
-    private static String marqueDeRespectDeGary(String nom) {
-        return ", Maître " + nom;
+    private static String nettoyerNom(String raw) {
+        String strClean = raw.replaceAll("[^A-Za-z -]", "")
+                .replaceAll("^[- ]*", "")
+                .replaceAll("[- ]*$", "")
+                .replaceAll("[-]{2,}", "-")
+                .replaceAll("[ -]{2,}", " ")
+                .toLowerCase();
+        return mettreEnMajuscule(strClean);
     }
 
-    private static String rendreLaMonnaie(int zeny, String nom) {
-        return "Voilà vos " + zeny + "z, cher " + nom;
-    }
-
-    private static String remerciementDeGaryNul() {
-        return "...";
-    }
-
-    private static String remerciementDeGaryMediocre() {
-        return "Voilà ton zeny, du balai !";
-    }
-
-    private static String remerciementDeGaryBon() {
-        return ". Au plaisir de vous revoir bientôt !";
-    }
-
-    private static String remerciementDeGarySuper(int zeny) {
-        return ". Laissez moi vous remercier à la hauteur de votre statut : " + afficheMerci(zeny) + "!";
-    }
-
-    private static String afficheMerci(int nombreDeZeny) {
-        int nombreDeMerci = nombreDeZeny/100_000;
-        return "Merci ".repeat(Math.max(0, nombreDeMerci));
+    private static String mettreEnMajuscule(String strClean) {
+        return Arrays.stream(strClean.split("((?=[ -])|(?<=[ -]))"))
+                .map(s -> s.matches("^[a-z]+$") ? s.substring(0, 1).toUpperCase() + s.substring(1) : s)
+                .collect(Collectors.joining());
     }
 }
