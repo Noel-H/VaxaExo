@@ -1,24 +1,54 @@
 public class VaxaExo {
     public static void main(String[] args) {
-        vendre(350, " ----    [__dark---SasUke- -le - - - - - -  ---- - U(b)er]  --  ");
-        vendre(0, "Billy");
-        vendre(55000, "jean-pierre Papin");
-        vendre(-500, " ----    [gaRY]  --  ");
-        vendre(1, "Timmy");
-        vendre(152000, "Danny");
-        vendre(800001, "Sassi");
+        vendre("Jellopy", "billy the kid 94");
+        vendre("Opal", "billy the kid 94");
+        vendre("3carat Diamond", "billy the kid 94");
+        vendre("", "billy the kid 94");
+        vendre("Jellopy", "Gary");
+        vendre("Garlet", "Tommy");
     }
 
-    private static void vendre(int zeny, String nom) {
+    private static void vendre(String objet, String nom) {
         String nomDuJoueur = nettoyerNom(nom);
 
         if (EstCeQueLeNomDuJoueurEstGary(nomDuJoueur)) {
             System.out.println("Boum !");
             return;
         }
+        int zeny;
+        if (!lObjetEstIlAutorise(objet)) {
+            System.out.println("Gary : Je n’accepte pas cet objet.");
+        } else {
+            zeny = obtenirPrixDeLObjet(objet);
+            String niveauDeVente = obtenirNiveauDeVente(zeny);
+            reponseDeGary(zeny, nomDuJoueur, niveauDeVente);
+        }
+    }
 
-        String niveauDeVente = obtenirNiveauDeVente(zeny);
-        reponseDeGary(zeny, nomDuJoueur, niveauDeVente);
+    private static boolean lObjetEstIlAutorise(String objet) {
+        if (objet.equals("Jellopy")) {
+            return true;
+        }
+        if (objet.equals("Opal")) {
+            return true;
+        }
+        if (objet.equals("3carat Diamond")) {
+            return true;
+        }
+        return false;
+    }
+
+    private static int obtenirPrixDeLObjet(String objet) {
+        if (objet.equals("Jellopy")) {
+            return 3;
+        }
+        if (objet.equals("Opal")) {
+            return 3000;
+        }
+        if (objet.equals("3carat Diamond")) {
+            return 27500;
+        }
+        return 0;
     }
 
     private static boolean EstCeQueLeNomDuJoueurEstGary(String nomDuJoueur) {
