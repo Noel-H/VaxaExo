@@ -3,31 +3,30 @@ import java.util.stream.Collectors;
 
 public class VaxaExo {
     public static void main(String[] args) {
-        vendre("Jellopy", "billy the kid 94");
-        vendre("Opal", "billy the kid 94");
-        vendre("3carat Diamond", "billy the kid 94");
-        vendre("Garlet", "billy the kid 94");
-        vendre("Scell", "billy the kid 94");
-        vendre("Zargon", "billy the kid 94");
-        vendre("Aquamarine", "Tommy");
-        vendre("Amethyst", "Tommy");
-        vendre("Zircon", "Tommy");
-        vendre("1carat Diamond", "billy the kid 94");
-        vendre("2carat Diamond", "billy the kid 94");
-        vendre("Pearl", "billy the kid 94");
-        vendre("Emerald", "billy the kid 94");
-        vendre("Grit", "Tommy");
-        vendre("Ruby", "Tommy");
-        vendre("Cursed Ruby", "billy the kid 94");
-        vendre("Cracked Diamond", "billy the kid 94");
-        vendre("17carat Diamond", "billy the kid 94");
-        vendre("Gold", "billy the kid 94");
-        vendre("Fine grit", "billy the kid 94");
-        vendre("50carat Diamond", "John");
-        vendre("Fine grit", "Gary");
+        vendre(TypeObjet.JELLOPY, "billy the kid 94");
+        vendre(TypeObjet.OPAL, "billy the kid 94");
+        vendre(TypeObjet._3CARAT_DIAMOND, "billy the kid 94");
+        vendre(TypeObjet.GARLET, "billy the kid 94");
+        vendre(TypeObjet.SCELL, "billy the kid 94");
+        vendre(TypeObjet.ZARGON, "billy the kid 94");
+        vendre(TypeObjet.AQUAMARINE, "Tommy");
+        vendre(TypeObjet.AMETHYST, "Tommy");
+        vendre(TypeObjet.ZIRCON, "Tommy");
+        vendre(TypeObjet._1CARAT_DIAMOND, "billy the kid 94");
+        vendre(TypeObjet._2CARAT_DIAMOND, "billy the kid 94");
+        vendre(TypeObjet.PEARL, "billy the kid 94");
+        vendre(TypeObjet.EMERALD, "billy the kid 94");
+        vendre(TypeObjet.GRIT, "Tommy");
+        vendre(TypeObjet.RUBY, "Tommy");
+        vendre(TypeObjet.CURSED_RUBY, "billy the kid 94");
+        vendre(TypeObjet.CRACKED_DIAMOND, "billy the kid 94");
+        vendre(TypeObjet._17CARAT_DIAMOND, "billy the kid 94");
+        vendre(TypeObjet.GOLD, "billy the kid 94");
+        vendre(TypeObjet.FINE_GRIT, "billy the kid 94");
+        vendre(TypeObjet.FINE_GRIT, "Gary");
     }
 
-    public static void vendre(String objet, String nom) {
+    public static void vendre(TypeObjet objet, String nom) {
         nom = nettoyerNom(nom);
         if (garyBug(nom)) {
             return;
@@ -37,50 +36,8 @@ public class VaxaExo {
         traiterPrix(zeny, nom);
     }
 
-    private static int determinerZeny(String objet) {
-        if ("Jellopy".equals(objet)) {
-            return 3;
-        } else if ("Opal".equals(objet)) {
-            return 3000;
-        } else if ("3carat Diamond".equals(objet)) {
-            return 27500;
-        } else if ("Garlet".equals(objet)) {
-            return 20;
-        } else if ("Scell".equals(objet)) {
-            return 80;
-        } else if ("Zargon".equals(objet)) {
-            return 240;
-        } else if ("Aquamarine ".equals(objet)) {
-            return 3000;
-        } else if ("Amethyst ".equals(objet)) {
-            return 3000;
-        } else if ("Zircon ".equals(objet)) {
-            return 3000;
-        } else if ("1carat Diamond".equals(objet)) {
-            return 5000;
-        } else if ("2carat Diamond".equals(objet)) {
-            return 12500;
-        } else if ("Pearl".equals(objet)) {
-            return 3000;
-        } else if ("Emerald".equals(objet)) {
-            return 3000;
-        } else if ("Grit".equals(objet)) {
-            return 153;
-        } else if ("Ruby".equals(objet)) {
-            return 3000;
-        } else if ("Cursed Ruby".equals(objet)) {
-            return 300;
-        } else if ("Cracked Diamond".equals(objet)) {
-            return 5;
-        } else if ("17carat Diamond".equals(objet)) {
-            return 3000000;
-        } else if ("Gold".equals(objet)) {
-            return 75000;
-        } else if ("Fine grit".equals(objet)) {
-            return 60;
-        }  else {
-            return -1;
-        }
+    private static int determinerZeny(TypeObjet objet) {
+        return objet.prix;
     }
 
     private static boolean garyBug(String nom) {
@@ -155,5 +112,36 @@ public class VaxaExo {
         return Arrays.stream(strClean.split("((?=[ -])|(?<=[ -]))"))
                 .map(s -> s.matches("^[a-z]+$") ? s.substring(0, 1).toUpperCase() + s.substring(1) : s)
                 .collect(Collectors.joining());
+    }
+
+    public enum TypeObjet {
+        JELLOPY(3, "Jellopy"),
+        OPAL(3000, "Opal"),
+        _3CARAT_DIAMOND(27500, "3carat Diamond"),
+        GARLET(20, "Garlet"),
+        SCELL(80, "Scell"),
+        ZARGON(240, "Zargon"),
+        AQUAMARINE(3000, "Aquamarine"),
+        AMETHYST(3000, "Amethyst"),
+        ZIRCON(3000, "Zircon"),
+        _1CARAT_DIAMOND(5000, "1carat Diamond"),
+        _2CARAT_DIAMOND(12500, "2carat Diamond"),
+        PEARL(3000, "Pearl"),
+        EMERALD(3000, "Emerald"),
+        GRIT(153, "Grit"),
+        RUBY(3000, "Ruby"),
+        CURSED_RUBY(300, "Cursed Ruby"),
+        CRACKED_DIAMOND(5, "Cracked Diamond"),
+        _17CARAT_DIAMOND(3000000, "17carat Diamond"),
+        GOLD(75000, "Gold"),
+        FINE_GRIT(60, "Fine grit");
+
+        public final int prix;
+        public final String libelle;
+
+        TypeObjet(int prix, String libelle) {
+            this.prix = prix;
+            this.libelle = libelle;
+        }
     }
 }
