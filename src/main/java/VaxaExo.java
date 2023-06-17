@@ -1,14 +1,67 @@
 public class VaxaExo {
     public static void main(String[] args) {
-        vendre(300000, "Peter");
+        vendre(500000, "[__dark---Sasuke- -le - - - - - -  ---- - U(b)er]");
     }
 
     private static void vendre(int zeny, String nom) {
+        String nomDuJoueur = nettoyerNom(nom);
+
+        if (EstCeQueLeNomDuJoueurEstGary(nomDuJoueur)) {
+            System.out.println("Boum !");
+            return;
+        }
+
         String niveauDeVente = obtenirNiveauDeVente(zeny);
-        reponseDeGary(zeny, nom, niveauDeVente);
+        reponseDeGary(zeny, nomDuJoueur, niveauDeVente);
+    }
+
+    private static boolean EstCeQueLeNomDuJoueurEstGary(String nomDuJoueur) {
+        return nomDuJoueur.equals("Gary");
+    }
+
+    private static String nettoyerNom(String nom) {
+
+        StringBuilder nomDuJoueur = new StringBuilder();
+
+        for (Character character : nom.toCharArray()) {
+            if (Character.isLetter(character) || Character.isSpaceChar(character) || character.equals('-')) {
+                nomDuJoueur.append(character);
+            }
+        }
+
+        while (nomDuJoueurEstIlSale(nomDuJoueur.toString())) {
+            for (int i = 0; i < nomDuJoueur.length(); i++) {
+                if (i + 1 != nomDuJoueur.length() && String.valueOf(nomDuJoueur.charAt(i)).equals(String.valueOf(nomDuJoueur.charAt(i + 1))) && String.valueOf(nomDuJoueur.charAt(i)).equals("-")) {
+                    nomDuJoueur.deleteCharAt(i);
+                }
+                if (i + 1 != nomDuJoueur.length() && String.valueOf(nomDuJoueur.charAt(i)).equals(String.valueOf(nomDuJoueur.charAt(i + 1))) && String.valueOf(nomDuJoueur.charAt(i)).equals(" ")) {
+                    nomDuJoueur.deleteCharAt(i);
+                }
+                if (i + 1 != nomDuJoueur.length() && String.valueOf(nomDuJoueur.charAt(i)).equals(" ") && String.valueOf(nomDuJoueur.charAt(i + 1)).equals("-")) {
+                    nomDuJoueur.deleteCharAt(i + 1);
+                }
+                if (i + 1 != nomDuJoueur.length() && String.valueOf(nomDuJoueur.charAt(i)).equals("-") && String.valueOf(nomDuJoueur.charAt(i + 1)).equals(" ")) {
+                    nomDuJoueur.deleteCharAt(i);
+                }
+                if (i + 1 != nomDuJoueur.length() && String.valueOf(nomDuJoueur.charAt(i)).equals(" ") && Character.isLetter(nomDuJoueur.charAt(i+1))) {
+                    String letter = String.valueOf(nomDuJoueur.charAt(i + 1)).toUpperCase();
+                    nomDuJoueur.deleteCharAt(i+1);
+                    nomDuJoueur.replace(i+1, i+1, letter);
+                }
+            }
+        }
+        return nomDuJoueur.toString().substring(0, 1).toUpperCase() + nomDuJoueur.substring(1);
+    }
+
+    private static boolean nomDuJoueurEstIlSale(String nomDuJoueur) {
+        return nomDuJoueur.toString().contains("--") || nomDuJoueur.toString().contains("- ") || nomDuJoueur.toString().contains(" -") || nomDuJoueur.toString().contains("  ");
     }
 
     private static String obtenirNiveauDeVente(int zeny) {
+        if (zeny < 0) {
+            return "ARNAQUE";
+        }
+
         if (zeny < 1) {
             return "NUL";
         }
@@ -25,11 +78,16 @@ public class VaxaExo {
             return "BON";
         }
 
-            return "SUPER";
+        return "SUPER";
     }
 
     private static void reponseDeGary(int zeny, String nom, String niveauDeVente) {
         StringBuilder reponse = new StringBuilder();
+        reponse.append("Gary : ");
+
+        if (niveauDeVente.equals("ARNAQUE")) {
+            reponse.append("Je ne comprends pas.");
+        }
 
         if (niveauDeVente.equals("NUL")) {
             reponse.append(remerciementDeGaryNul());
@@ -76,7 +134,7 @@ public class VaxaExo {
     }
 
     private static String afficheMerci(int nombreDeZeny) {
-       int nombreDeMerci = nombreDeZeny/100_000;
+        int nombreDeMerci = nombreDeZeny/100_000;
         return "Merci ".repeat(Math.max(0, nombreDeMerci));
     }
 }
