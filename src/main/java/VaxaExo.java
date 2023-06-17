@@ -1,6 +1,12 @@
 public class VaxaExo {
     public static void main(String[] args) {
-        vendre(500000, "[__dark---Sasuke- -le - - - - - -  ---- - U(b)er]");
+        vendre(350, " ----    [__dark---SasUke- -le - - - - - -  ---- - U(b)er]  --  ");
+        vendre(0, "Billy");
+        vendre(55000, "jean-pierre Papin");
+        vendre(-500, " ----    [gaRY]  --  ");
+        vendre(1, "Timmy");
+        vendre(152000, "Danny");
+        vendre(800001, "Sassi");
     }
 
     private static void vendre(int zeny, String nom) {
@@ -25,7 +31,7 @@ public class VaxaExo {
 
         for (Character character : nom.toCharArray()) {
             if (Character.isLetter(character) || Character.isSpaceChar(character) || character.equals('-')) {
-                nomDuJoueur.append(character);
+                nomDuJoueur.append((character + "").toLowerCase());
             }
         }
 
@@ -43,10 +49,21 @@ public class VaxaExo {
                 if (i + 1 != nomDuJoueur.length() && String.valueOf(nomDuJoueur.charAt(i)).equals("-") && String.valueOf(nomDuJoueur.charAt(i + 1)).equals(" ")) {
                     nomDuJoueur.deleteCharAt(i);
                 }
+                if (i + 1 != nomDuJoueur.length() && String.valueOf(nomDuJoueur.charAt(i)).equals("-") && Character.isLetter(nomDuJoueur.charAt(i+1))) {
+                    String letter = String.valueOf(nomDuJoueur.charAt(i + 1)).toUpperCase();
+                    nomDuJoueur.deleteCharAt(i+1);
+                    nomDuJoueur.replace(i+1, i+1, letter);
+                }
                 if (i + 1 != nomDuJoueur.length() && String.valueOf(nomDuJoueur.charAt(i)).equals(" ") && Character.isLetter(nomDuJoueur.charAt(i+1))) {
                     String letter = String.valueOf(nomDuJoueur.charAt(i + 1)).toUpperCase();
                     nomDuJoueur.deleteCharAt(i+1);
                     nomDuJoueur.replace(i+1, i+1, letter);
+                }
+                if (String.valueOf(nomDuJoueur.charAt(0)).equals(" ") && Character.isLetter(nomDuJoueur.charAt(1))) {
+                    nomDuJoueur.deleteCharAt(0);
+                }
+                if (String.valueOf(nomDuJoueur.charAt(nomDuJoueur.length() - 1)).equals(" ") && Character.isLetter(nomDuJoueur.charAt(nomDuJoueur.length() - 2))) {
+                    nomDuJoueur.deleteCharAt(nomDuJoueur.length()-1);
                 }
             }
         }
@@ -108,9 +125,14 @@ public class VaxaExo {
 
         if (niveauDeVente.equals("SUPER")) {
             reponse.append(rendreLaMonnaie(zeny, nom));
+            reponse.append(marqueDeRespectDeGary(nom));
             reponse.append(remerciementDeGarySuper(zeny));
         }
         System.out.println(reponse);
+    }
+
+    private static String marqueDeRespectDeGary(String nom) {
+        return ", Maître " + nom;
     }
 
     private static String rendreLaMonnaie(int zeny, String nom) {
