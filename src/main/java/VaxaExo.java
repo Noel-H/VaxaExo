@@ -4,15 +4,28 @@ import java.util.stream.Collectors;
 
 public class VaxaExo {
     public static void main(String[] args) {
-        vendre(Arrays.asList(TypeObjet.JELLOPY, TypeObjet.AMETHYST, TypeObjet._3CARAT_DIAMOND), "billy the kid 94");
-        vendre(Arrays.asList(TypeObjet.CURSED_RUBY, TypeObjet.OPAL, TypeObjet.FINE_GRIT), "billy the kid 94");
-        vendre(Arrays.asList(TypeObjet.ZARGON, TypeObjet.EMERALD, TypeObjet.GARLET), "billy the kid 94");
-        vendre(Arrays.asList(TypeObjet.CRACKED_DIAMOND, TypeObjet.CRACKED_DIAMOND, TypeObjet.CRACKED_DIAMOND, TypeObjet.CRACKED_DIAMOND), "billy the kid 94");
-        vendre(Arrays.asList(), "billy the kid 94");
+        Joueur joueur1 = new Joueur("Billy");
+        Joueur joueur2 = new Joueur("Patrick");
+        Joueur joueur3 = new Joueur("Erica");
+        Joueur joueur4 = new Joueur("Gary");
+        Joueur joueur5 = new Joueur(" -[ --_JeAn-MiCHeL!:-. ");
+        Joueur joueur6 = new Joueur();
+        joueur6.setNom("Daouda");
+        Joueur joueur7 = new Joueur();
+        Joueur joueur8 = new Joueur("");
+
+        vendre(Arrays.asList(TypeObjet.JELLOPY, TypeObjet.AMETHYST, TypeObjet._3CARAT_DIAMOND), joueur1);
+        vendre(Arrays.asList(TypeObjet.CURSED_RUBY, TypeObjet.OPAL, TypeObjet.FINE_GRIT), joueur2);
+        vendre(Arrays.asList(TypeObjet.ZARGON, TypeObjet.EMERALD, TypeObjet.GARLET), joueur3);
+        vendre(Arrays.asList(TypeObjet.ZARGON, TypeObjet.EMERALD, TypeObjet.GARLET), joueur4);
+        vendre(Arrays.asList(TypeObjet.ZARGON, TypeObjet.EMERALD, TypeObjet.GARLET), joueur5);
+        vendre(Arrays.asList(TypeObjet.ZARGON, TypeObjet.EMERALD, TypeObjet.GARLET), joueur6);
+        vendre(Arrays.asList(TypeObjet.ZARGON, TypeObjet.EMERALD, TypeObjet.GARLET), joueur7);
+        vendre(Arrays.asList(TypeObjet.ZARGON, TypeObjet.EMERALD, TypeObjet.GARLET), joueur8);
     }
 
-    public static void vendre(List<TypeObjet> objets, String nom) {
-        nom = nettoyerNom(nom);
+    public static void vendre(List<TypeObjet> objets, Joueur joueur) {
+       String nom = nettoyerNom(joueur.getNom());
         if (garyBug(nom)) {
             return;
         }
