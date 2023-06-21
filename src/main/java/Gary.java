@@ -4,7 +4,13 @@ import java.util.stream.Collectors;
 
 public class Gary {
 
-    public int vendre(List<TypeObjet> objets, Joueur joueur) {
+    public void vendreTout(Joueur joueur) {
+        List<TypeObjet> objets = joueur.viderInventaire();
+        int zeny = vendre(objets, joueur);
+        joueur.ajouterArgent(zeny);
+    }
+
+    private int vendre(List<TypeObjet> objets, Joueur joueur) {
         String nom = nettoyerNom(joueur.getNom());
         if (garyBug(nom)) {
             return 0;
