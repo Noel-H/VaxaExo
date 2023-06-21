@@ -18,7 +18,9 @@ public enum TypeObjet {
     CRACKED_DIAMOND(5, "Cracked Diamond"),
     _17CARAT_DIAMOND(3000000, "17carat Diamond"),
     GOLD(75000, "Gold"),
-    FINE_GRIT(60, "Fine grit");
+    FINE_GRIT(60, "Fine grit"),
+    EMPTY_BOTTLE(3, "Empty Bottle"),
+    STICKY_MUCUS(35, "Sticky Mucus");
 
     public final int prix;
     public final String libelle;
