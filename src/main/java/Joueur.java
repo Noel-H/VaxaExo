@@ -3,6 +3,9 @@ import java.util.List;
 
 public class Joueur {
     private String nom;
+    private int pvMax;
+    private int pv;
+    private boolean vivant;
     private Overcharge niveauOvercharge;
     private List<TypeObjet> inventaire;
     private int argent;
@@ -19,6 +22,9 @@ public class Joueur {
         this.niveauOvercharge = Overcharge.NIVEAU_0;
         this.inventaire = new ArrayList<>();
         this.argent = 0;
+        this.pvMax = 30;
+        this.pv = this.pvMax;
+        this.vivant = true;
         System.out.println("Création de " + nom);
     }
 
@@ -28,6 +34,20 @@ public class Joueur {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public boolean estVivant() {
+        return this.vivant;
+    }
+
+    public void recevoirDegats(int degats) {
+        this.pv = this.pv - degats;
+        System.out.println(this.nom + " subit " + degats + " dégâts");
+        if (this.pv < 0) {
+            this.pv = 0;
+            this.vivant = false;
+            System.out.println(this.nom + " est mort !");
+        }
     }
 
     public int getNiveauOvercharge() {
@@ -45,7 +65,9 @@ public class Joueur {
     }
 
     public void ramasser(List<TypeObjet> objets) {
-        this.inventaire.addAll(objets);
+        if (this.vivant) {
+            this.inventaire.addAll(objets);
+        }
     }
 
     public void ajouterArgent(int valeur) {
