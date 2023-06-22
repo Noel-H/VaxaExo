@@ -79,4 +79,6 @@ public abstract class Personnage {
     public int getPvMax() {
         return this.pvMax;
     }
+
+    public abstract void comportementVictoire(Personnage personnage);
 }

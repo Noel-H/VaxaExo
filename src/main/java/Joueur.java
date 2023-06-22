@@ -3,6 +3,7 @@ import java.util.List;
 public class Joueur extends Personnage {
     private Overcharge niveauOvercharge;
     private int argent;
+    private int exp; // a mettre en public pour le test
 
     Joueur() {
         this("Newbie");
@@ -12,6 +13,7 @@ public class Joueur extends Personnage {
         super(nom, 30, 8);
         this.niveauOvercharge = Overcharge.NIVEAU_0;
         this.argent = 0;
+        this.exp = 0;
         System.out.println("Création de " + nom);
     }
 
@@ -47,5 +49,17 @@ public class Joueur extends Personnage {
         }
         this.argent = this.argent - somme;
         return true;
+    }
+
+    @Override
+    public void comportementVictoire(Personnage personnage) {
+        this.depouiller(personnage);
+        if (personnage instanceof Poring) {
+            gagnerExp(((Poring)personnage).getValeurExp());
+        }
+    }
+
+    public void gagnerExp(int somme) {
+        this.exp = this.exp + somme;
     }
 }

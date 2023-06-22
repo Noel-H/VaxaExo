@@ -12,12 +12,12 @@ public class Foret {
         }
 
         if (!this.poring.estVivant()) {
-            personnage.depouiller(this.poring);
+            personnage.comportementVictoire(this.poring);
             this.poring = new Poring();
         }
 
         if (!personnage.estVivant()) {
-            this.poring.depouiller(personnage);
+            this.poring.comportementVictoire(personnage);
         }
     }
 }
