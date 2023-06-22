@@ -3,7 +3,7 @@ import java.util.List;
 public class Joueur extends Personnage {
     private Overcharge niveauOvercharge;
     private int argent;
-    private int exp; // a mettre en public pour le test
+    public int exp; // a mettre en public pour le test
 
     Joueur() {
         this("Newbie");
