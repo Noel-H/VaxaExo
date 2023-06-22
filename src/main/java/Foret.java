@@ -1,30 +1,23 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Foret {
-    private List<TypeObjet> objets;
+    private Poring poring;
 
     Foret() {
-        objets = new ArrayList<>();
-        this.objets.add(TypeObjet.EMPTY_BOTTLE);
-        this.objets.add(TypeObjet.STICKY_MUCUS);
-        this.objets.add(TypeObjet.JELLOPY);
+        this.poring = new Poring();
     }
 
     public void visiter(Joueur joueur) {
-        System.out.println(joueur.getNom() + " visite la forêt");
-        joueur.ramasser(objets);
-        viderForet();
-        renouvellerObjetForet();
-    }
+        while (joueur.estVivant() && this.poring.estVivant()) {
+            joueur.attaquer(this.poring);
+            this.poring.attaquer(joueur);
+        }
 
-    private void renouvellerObjetForet() {
-        this.objets.add(TypeObjet.EMPTY_BOTTLE);
-        this.objets.add(TypeObjet.STICKY_MUCUS);
-        this.objets.add(TypeObjet.JELLOPY);
-    }
+        if (!this.poring.estVivant()) {
+            joueur.depouiller(this.poring);
+            this.poring = new Poring();
+        }
 
-    private void viderForet() {
-        this.objets = new ArrayList<>();
+        if (!joueur.estVivant()) {
+            this.poring.depouiller(joueur);
+        }
     }
 }

@@ -5,6 +5,7 @@ public class Joueur {
     private String nom;
     private int pvMax;
     private int pv;
+    private int atk;
     private boolean vivant;
     private Overcharge niveauOvercharge;
     private List<TypeObjet> inventaire;
@@ -24,6 +25,7 @@ public class Joueur {
         this.argent = 0;
         this.pvMax = 30;
         this.pv = this.pvMax;
+        this.atk = 8;
         this.vivant = true;
         System.out.println("Création de " + nom);
     }
@@ -43,7 +45,7 @@ public class Joueur {
     public void recevoirDegats(int degats) {
         this.pv = this.pv - degats;
         System.out.println(this.nom + " subit " + degats + " dégâts");
-        if (this.pv < 0) {
+        if (this.pv <= 0) {
             this.pv = 0;
             this.vivant = false;
             System.out.println(this.nom + " est mort !");
@@ -80,5 +82,18 @@ public class Joueur {
 
     public int consulterArgent() {
         return this.argent;
+    }
+
+    public void depouiller(Poring poring) {
+        List<TypeObjet> objets = poring.viderInventaire();
+        this.inventaire.addAll(objets);
+        System.out.println(this.nom + " ramasse " + objets.size() + " objets");
+    }
+
+    public void attaquer(Poring poring) {
+        if (this.vivant) {
+            System.out.println(this.nom + " inflige " + this.atk + " dégâts");
+            poring.recevoirDegats(this.atk);
+        }
     }
 }
