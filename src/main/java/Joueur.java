@@ -1,14 +1,7 @@
-import java.util.ArrayList;
 import java.util.List;
 
-public class Joueur {
-    private String nom;
-    private int pvMax;
-    private int pv;
-    private int atk;
-    private boolean vivant;
+public class Joueur extends Personnage {
     private Overcharge niveauOvercharge;
-    private List<TypeObjet> inventaire;
     private int argent;
 
     Joueur() {
@@ -16,40 +9,10 @@ public class Joueur {
     }
 
     Joueur (String nom) {
-        if (nom.isEmpty()){
-            nom = "Newbie";
-        }
-        this.nom = nom;
+        super(nom, 30, 8);
         this.niveauOvercharge = Overcharge.NIVEAU_0;
-        this.inventaire = new ArrayList<>();
         this.argent = 0;
-        this.pvMax = 30;
-        this.pv = this.pvMax;
-        this.atk = 8;
-        this.vivant = true;
         System.out.println("Création de " + nom);
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public boolean estVivant() {
-        return this.vivant;
-    }
-
-    public void recevoirDegats(int degats) {
-        this.pv = this.pv - degats;
-        System.out.println(this.nom + " subit " + degats + " dégâts");
-        if (this.pv <= 0) {
-            this.pv = 0;
-            this.vivant = false;
-            System.out.println(this.nom + " est mort !");
-        }
     }
 
     public int getNiveauOvercharge() {
@@ -58,18 +21,6 @@ public class Joueur {
 
     public void setNiveauOvercharge(int niveauOvercharge) {
         this.niveauOvercharge = Overcharge.fromNiveau(niveauOvercharge);
-    }
-
-    public List<TypeObjet> viderInventaire() {
-        List<TypeObjet> objetsSupprimer = this.inventaire;
-        this.inventaire = new ArrayList<>();
-        return objetsSupprimer;
-    }
-
-    public void ramasser(List<TypeObjet> objets) {
-        if (this.vivant) {
-            this.inventaire.addAll(objets);
-        }
     }
 
     public void ajouterArgent(int valeur) {
@@ -84,16 +35,9 @@ public class Joueur {
         return this.argent;
     }
 
-    public void depouiller(Poring poring) {
-        List<TypeObjet> objets = poring.viderInventaire();
-        this.inventaire.addAll(objets);
-        System.out.println(this.nom + " ramasse " + objets.size() + " objets");
-    }
-
-    public void attaquer(Poring poring) {
+    public void ramasser(List<TypeObjet> objets) {
         if (this.vivant) {
-            System.out.println(this.nom + " inflige " + this.atk + " dégâts");
-            poring.recevoirDegats(this.atk);
+            this.inventaire.addAll(objets);
         }
     }
 }

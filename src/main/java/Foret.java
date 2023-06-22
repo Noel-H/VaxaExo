@@ -5,19 +5,19 @@ public class Foret {
         this.poring = new Poring();
     }
 
-    public void visiter(Joueur joueur) {
-        while (joueur.estVivant() && this.poring.estVivant()) {
-            joueur.attaquer(this.poring);
-            this.poring.attaquer(joueur);
+    public void visiter(Personnage personnage) {
+        while (personnage.estVivant() && this.poring.estVivant()) {
+            personnage.attaquer(this.poring);
+            this.poring.attaquer(personnage);
         }
 
         if (!this.poring.estVivant()) {
-            joueur.depouiller(this.poring);
+            personnage.depouiller(this.poring);
             this.poring = new Poring();
         }
 
-        if (!joueur.estVivant()) {
-            this.poring.depouiller(joueur);
+        if (!personnage.estVivant()) {
+            this.poring.depouiller(personnage);
         }
     }
 }
