@@ -40,4 +40,12 @@ public class Joueur extends Personnage {
             this.inventaire.addAll(objets);
         }
     }
+
+    public boolean payer(int somme) {
+        if (somme > this.argent) {
+            return false;
+        }
+        this.argent = this.argent - somme;
+        return true;
+    }
 }

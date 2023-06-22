@@ -61,4 +61,22 @@ public abstract class Personnage {
             personnage.recevoirDegats(this.atk);
         }
     }
+
+    public void recupererPV(int valeur) {
+        int pvActuelle = this.pv;
+        int soin = valeur;
+        int pvRecuperer = 0;
+        this.pv = this.pv + soin;
+        if (this.pv > this.pvMax) {
+            this.pv = this.pvMax;
+            pvRecuperer = this.pvMax - pvActuelle;
+        } else {
+            pvRecuperer = soin;
+        }
+        System.out.println(this.nom + " récupère " + pvRecuperer + " points de vie");
+    }
+
+    public int getPvMax() {
+        return this.pvMax;
+    }
 }
