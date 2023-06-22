@@ -25,9 +25,7 @@ public class VaxaExo {
         healer.soigner(zanmato);
         System.out.println(zanmato.getNom() + " possède " + zanmato.consulterArgent() + "z");
 
-
         System.out.println();
-        zanmato.ramasser(Arrays.asList(TypeObjet._17CARAT_DIAMOND));
 
         System.out.println("-----------------------------------------");
         System.out.println(zanmato.getNom() + " Visite la forêt.");
@@ -35,6 +33,68 @@ public class VaxaExo {
         foret.visiter(zanmato);
         System.out.println(zanmato.getNom() + " a " + zanmato.exp + " d'experience");
         gary.vendreTout(zanmato);
+        System.out.println(zanmato.getNom() + " possède " + zanmato.consulterArgent() + "z");
+        healer.soigner(zanmato);
+        System.out.println(zanmato.getNom() + " possède " + zanmato.consulterArgent() + "z");
+
+        System.out.println();
+
+        System.out.println("-----------------------------------------");
+        System.out.println(zanmato.getNom() + " Visite la forêt.");
+        System.out.println("-----------------------------------------");
+        foret.visiter(zanmato);
+        System.out.println(zanmato.getNom() + " a " + zanmato.exp + " d'experience");
+        gary.vendreTout(zanmato);
+        System.out.println(zanmato.getNom() + " possède " + zanmato.consulterArgent() + "z");
+        healer.soigner(zanmato);
+        System.out.println(zanmato.getNom() + " possède " + zanmato.consulterArgent() + "z");
+
+        System.out.println();
+
+        System.out.println("-----------------------------------------");
+        System.out.println(zanmato.getNom() + " Visite la forêt.");
+        System.out.println("-----------------------------------------");
+        foret.visiter(zanmato);
+        System.out.println(zanmato.getNom() + " a " + zanmato.exp + " d'experience");
+        gary.vendreTout(zanmato);
+        System.out.println(zanmato.getNom() + " possède " + zanmato.consulterArgent() + "z");
+        healer.soigner(zanmato);
+        System.out.println(zanmato.getNom() + " possède " + zanmato.consulterArgent() + "z");
+
+        System.out.println();
+
+        System.out.println("-----------------------------------------");
+        System.out.println(zanmato.getNom() + " Visite la forêt.");
+        System.out.println("-----------------------------------------");
+        foret.visiter(zanmato);
+        System.out.println(zanmato.getNom() + " a " + zanmato.exp + " d'experience");
+        gary.vendreTout(zanmato);
+        System.out.println(zanmato.getNom() + " possède " + zanmato.consulterArgent() + "z");
+        healer.soigner(zanmato);
+        System.out.println(zanmato.getNom() + " possède " + zanmato.consulterArgent() + "z");
+
+        System.out.println();
+
+        System.out.println("-----------------------------------------");
+        System.out.println(zanmato.getNom() + " Visite la forêt.");
+        System.out.println("-----------------------------------------");
+        foret.visiter(zanmato);
+        System.out.println(zanmato.getNom() + " a " + zanmato.exp + " d'experience");
+        gary.vendreTout(zanmato);
+        System.out.println(zanmato.getNom() + " possède " + zanmato.consulterArgent() + "z");
+        healer.soigner(zanmato);
+        System.out.println(zanmato.getNom() + " possède " + zanmato.consulterArgent() + "z");
+
+        System.out.println();
+
+        System.out.println("-----------------------------------------");
+        System.out.println(zanmato.getNom() + " Visite la forêt.");
+        System.out.println("-----------------------------------------");
+        foret.visiter(zanmato);
+        System.out.println(zanmato.getNom() + " a " + zanmato.exp + " d'experience");
+        gary.vendreTout(zanmato);
+        System.out.println(zanmato.getNom() + " possède " + zanmato.consulterArgent() + "z");
+        healer.soigner(zanmato);
         System.out.println(zanmato.getNom() + " possède " + zanmato.consulterArgent() + "z");
     }
 }

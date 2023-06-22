@@ -3,7 +3,10 @@ import java.util.List;
 public class Joueur extends Personnage {
     private Overcharge niveauOvercharge;
     private int argent;
-    private int exp; // a mettre en public pour le test
+    public int exp; // a mettre en public pour le test
+    private int niveau;
+    private int baseAtk;
+    private int basePvMax;
 
     Joueur() {
         this("Newbie");
@@ -14,6 +17,9 @@ public class Joueur extends Personnage {
         this.niveauOvercharge = Overcharge.NIVEAU_0;
         this.argent = 0;
         this.exp = 0;
+        this.niveau = 1;
+        this.baseAtk = this.atk;
+        this.basePvMax = this.pvMax;
         System.out.println("Création de " + nom);
     }
 
@@ -61,5 +67,28 @@ public class Joueur extends Personnage {
 
     public void gagnerExp(int somme) {
         this.exp = this.exp + somme;
+        int nouveauNiveau = NiveauExperience.fromExperience(this.exp).level;
+        if (nouveauNiveau != this.niveau) {
+            gagnerNiveau(nouveauNiveau);
+        }
+    }
+
+    private void gagnerNiveau(int nouveauNiveau) {
+        this.niveau = nouveauNiveau;
+        recalculerStat();
+        System.out.println(this.nom + " passe au niveau " + nouveauNiveau + " !");
+    }
+
+    private void recalculerStat() {
+        calculerBaseAtk();
+        calculerBasePvMax();
+    }
+
+    private void calculerBasePvMax() {
+        this.pvMax = this.basePvMax + (15 * this.niveau);
+    }
+
+    private void calculerBaseAtk() {
+        this.atk = this.baseAtk + (this.niveau * 2);
     }
 }
