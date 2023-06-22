@@ -7,6 +7,8 @@ public class Joueur extends Personnage {
     private int niveau;
     private int baseAtk;
     private int basePvMax;
+    private Job job;
+    private int niveauBash;
 
     Joueur() {
         this("Newbie");
@@ -20,15 +22,13 @@ public class Joueur extends Personnage {
         this.niveau = 1;
         this.baseAtk = this.atk;
         this.basePvMax = this.pvMax;
+        this.job = Job.NOVICE;
+        this.niveauBash = Bash.LEVEL_0.level;
         System.out.println("Création de " + nom);
     }
 
     public int getNiveauOvercharge() {
         return niveauOvercharge.niveau;
-    }
-
-    public void setNiveauOvercharge(int niveauOvercharge) {
-        this.niveauOvercharge = Overcharge.fromNiveau(niveauOvercharge);
     }
 
     public void ajouterArgent(int valeur) {
@@ -76,7 +76,23 @@ public class Joueur extends Personnage {
     private void gagnerNiveau(int nouveauNiveau) {
         this.niveau = nouveauNiveau;
         recalculerStat();
+        gererSkill();
         System.out.println(this.nom + " passe au niveau " + nouveauNiveau + " !");
+    }
+
+    private void gererSkill() {
+        if (this.job == Job.NOVICE) {
+            return;
+        }
+        if (this.niveau < 11) {
+            return;
+        }
+        if (this.job == Job.MARCHAND) {
+            // TODO mettre overcharge au bon niveau
+        }
+        if (this.job == Job.EPEISTE) {
+            // TODO mettre bash au bon niveau
+        }
     }
 
     private void recalculerStat() {
@@ -90,5 +106,25 @@ public class Joueur extends Personnage {
 
     private void calculerBaseAtk() {
         this.atk = this.baseAtk + (this.niveau * 2);
+    }
+
+    public void changerDeClasse(Job job) {
+        this.job = job;
+        this.baseAtk = job.baseAtk;
+        this.basePvMax = job.basePvMax;
+        recalculerStat();
+        if (this.pv > this.pvMax) {
+            this.pv = this.pvMax;
+        }
+        gererSkill();
+        System.out.println(this.nom + " devient " + job.jobName + " !");
+    }
+
+    public int getNiveau() {
+        return niveau;
+    }
+
+    public Job getJob() {
+        return job;
     }
 }
