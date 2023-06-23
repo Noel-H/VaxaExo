@@ -2,70 +2,62 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Personnage {
-    protected String nom;
-    protected int pvMax;
-    protected int pv;
-    protected int atk;
-    protected boolean vivant;
-    protected List<TypeObjet> inventaire;
 
-    public Personnage(String nom, int pvMax, int atk) {
-        if (nom.isEmpty()) {
-            nom = "Newbie";
-        }
-        this.nom = nom;
-        this.pvMax = pvMax;
-        this.pv = this.pvMax;
-        this.atk = atk;
-        this.vivant = true;
-        this.inventaire = new ArrayList<>();
+    protected PersonnageInfo data;
+
+    public Personnage() {
+
+    }
+
+    public Personnage(PersonnageInfo personnageInfo) {
+        this.data = personnageInfo;
     }
 
     public String getNom() {
-        return nom;
+        return this.data.getNom();
     }
 
     public void setNom(String nom) {
-        this.nom = nom;
+        this.data.setNom(nom);
     }
 
     public boolean estVivant() {
-        return this.vivant;
+        return this.data.isVivant();
     }
 
     public void recevoirDegats(int degats) {
-        this.pv = this.pv - degats;
-        System.out.println(this.nom + " subit " + degats + " dégâts");
-        if (this.pv <= 0) {
-            this.pv = 0;
-            this.vivant = false;
-            System.out.println(this.nom + " est mort !");
+        this.data.setPv(this.data.getPv() - degats);
+        System.out.println(this.data.getNom() + " subit " + degats + " dégâts");
+        if (this.data.getPv() <= 0) {
+            this.data.setPv(0);
+            this.data.setVivant(false);
+            System.out.println(this.data.getNom() + " est mort !");
         }
     }
 
     public List<TypeObjet> viderInventaire() {
-        List<TypeObjet> objetsSupprimer = this.inventaire;
-        this.inventaire = new ArrayList<>();
+        List<TypeObjet> objetsSupprimer = this.data.getInventaire();
+        this.data.setInventaire(new ArrayList<>());
         return objetsSupprimer;
     }
 
     public void depouiller(Personnage personnage) {
         List<TypeObjet> objets = personnage.viderInventaire();
-        this.inventaire.addAll(objets);
-        System.out.println(nom + " ramasse " + objets.size() + " objets");
+        this.data.getInventaire().addAll(objets);
+        System.out.println(data.getNom() + " ramasse " + objets.size() + " objets");
     }
 
     public void attaquer(Personnage personnage) {
-        if (this.vivant) {
-            System.out.println(this.nom + " inflige " + this.atk + " dégâts");
-            personnage.recevoirDegats(this.atk);
+        if (this.data.isVivant()) {
+            System.out.println(this.data.getNom() + " inflige " + this.data.getAtk() + " dégâts");
+            personnage.recevoirDegats(this.data.getAtk());
         }
     }
 
     public void recupererPV(int valeur) {
-        int pvSoignes = calculerPvSoignes(pv, pvMax, valeur);
-        pv += pvSoignes;
-        System.out.println(nom + " récupère " + pvSoignes + " points de vie");
+        int pvSoignes = calculerPvSoignes(data.getPv(), data.getPvMax(), valeur);
+        data.setPv( data.getPv() + pvSoignes);
+        System.out.println(data.getNom() + " récupère " + pvSoignes + " points de vie");
     }
 
     private int calculerPvSoignes(int pv, int pvMax, int valeur) {
@@ -77,7 +69,7 @@ public abstract class Personnage {
     }
 
     public int getPvMax() {
-        return pvMax;
+        return data.getPvMax();
     }
 
     public abstract void comportementVictoire(Personnage personnage);
