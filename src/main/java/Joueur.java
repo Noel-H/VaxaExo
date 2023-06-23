@@ -1,34 +1,38 @@
 import java.util.List;
 
 public class Joueur extends Personnage {
-    private Overcharge niveauOvercharge;
-    private int argent;
-    public int exp; // a mettre en public pour le test
-    private int niveau;
-    private int baseAtk;
-    private int basePvMax;
-    private Job job;
+    private int niveauOvercharge;
     private int niveauBash;
+    private int argent;
+    public int exp;
+    private int niveau;
+    private Job job;
+    private int compteurAtk;
 
     Joueur() {
         this("Newbie");
     }
 
-    Joueur (String nom) {
+    Joueur(String nom) {
         super(nom, 30, 8);
-        this.niveauOvercharge = Overcharge.NIVEAU_0;
+        this.niveauOvercharge = SkillOvercharge.NIVEAU_0.niveau;
         this.argent = 0;
         this.exp = 0;
         this.niveau = 1;
-        this.baseAtk = this.atk;
-        this.basePvMax = this.pvMax;
         this.job = Job.NOVICE;
-        this.niveauBash = Bash.LEVEL_0.level;
-        System.out.println("Création de " + nom);
+        this.compteurAtk = 0;
+        System.out.println("Création de " + this.nom);
     }
 
     public int getNiveauOvercharge() {
-        return niveauOvercharge.niveau;
+        return niveauOvercharge;
+    }
+
+
+    public void ramasser(List<TypeObjet> objets) {
+        if (this.vivant) {
+            this.inventaire.addAll(objets);
+        }
     }
 
     public void ajouterArgent(int valeur) {
@@ -43,81 +47,74 @@ public class Joueur extends Personnage {
         return this.argent;
     }
 
-    public void ramasser(List<TypeObjet> objets) {
-        if (this.vivant) {
-            this.inventaire.addAll(objets);
-        }
-    }
-
     public boolean payer(int somme) {
-        if (somme > this.argent) {
+        if (nePeutPasPayer(somme)) {
             return false;
         }
-        this.argent = this.argent - somme;
+        reduireArgent(somme);
         return true;
+    }
+
+    private void reduireArgent(int somme) {
+        this.argent = this.argent - somme;
+    }
+
+    private boolean nePeutPasPayer(int somme) {
+        return somme > argent;
     }
 
     @Override
     public void comportementVictoire(Personnage personnage) {
-        this.depouiller(personnage);
+        depouiller(personnage);
         if (personnage instanceof Poring) {
-            gagnerExp(((Poring)personnage).getValeurExp());
+            gagnerExp(((Poring) personnage).getValeurExp());
         }
     }
 
     public void gagnerExp(int somme) {
-        this.exp = this.exp + somme;
-        int nouveauNiveau = NiveauExperience.fromExperience(this.exp).level;
-        if (nouveauNiveau != this.niveau) {
-            gagnerNiveau(nouveauNiveau);
-        }
-    }
-
-    private void gagnerNiveau(int nouveauNiveau) {
-        this.niveau = nouveauNiveau;
-        recalculerStat();
-        gererSkill();
-        System.out.println(this.nom + " passe au niveau " + nouveauNiveau + " !");
-    }
-
-    private void gererSkill() {
-        if (this.job == Job.NOVICE) {
-            return;
-        }
-        if (this.niveau < 11) {
-            return;
-        }
-        if (this.job == Job.MARCHAND) {
-            // TODO mettre overcharge au bon niveau
-        }
-        if (this.job == Job.EPEISTE) {
-            // TODO mettre bash au bon niveau
-        }
-    }
-
-    private void recalculerStat() {
-        calculerBaseAtk();
-        calculerBasePvMax();
-    }
-
-    private void calculerBasePvMax() {
-        this.pvMax = this.basePvMax + (15 * this.niveau);
-    }
-
-    private void calculerBaseAtk() {
-        this.atk = this.baseAtk + (this.niveau * 2);
+        this.exp += somme;
+        gererMonteeDeNiveau();
     }
 
     public void changerDeClasse(Job job) {
         this.job = job;
-        this.baseAtk = job.baseAtk;
-        this.basePvMax = job.basePvMax;
-        recalculerStat();
-        if (this.pv > this.pvMax) {
+        recalculerStats();
+        gererCapacites();
+        System.out.println(nom + " devient " + job.libelle + " !");
+    }
+
+    private void gererMonteeDeNiveau() {
+        int nouveauNiveau = NiveauExp.fromExp(this.exp).niveau;
+        if (this.niveau != nouveauNiveau) {
+            this.niveau = nouveauNiveau;
+            recalculerStats();
+            gererCapacites();
             this.pv = this.pvMax;
+            System.out.println(this.nom + " passe au niveau " + this.niveau + " !");
         }
-        gererSkill();
-        System.out.println(this.nom + " devient " + job.jobName + " !");
+    }
+
+    private void gererCapacites() {
+        int niveauxAuDelaDe10 = this.niveau - 10;
+
+        if (Job.NOVICE.equals(this.job)) {
+            return;
+        }
+
+        if (niveauxAuDelaDe10 < 0) {
+            return;
+        }
+
+        if (Job.EPEISTE.equals(this.job)) {
+            this.niveauBash = Math.max(niveauxAuDelaDe10, 10);
+        } else if (Job.MARCHAND.equals(this.job)) {
+            this.niveauOvercharge = Math.max(niveauxAuDelaDe10, 10);
+        }
+    }
+
+    private void recalculerStats() {
+        this.atk = this.job.baseAtk + (this.niveau * 2);
+        this.pvMax = this.job.basePvMax + (this.niveau * 15);
     }
 
     public int getNiveau() {
@@ -126,5 +123,20 @@ public class Joueur extends Personnage {
 
     public Job getJob() {
         return job;
+    }
+
+    public void attaquer(Personnage personnage) {
+        super.attaquer(personnage);
+
+        if (this.vivant && Job.EPEISTE.equals(this.job)) {
+            this.compteurAtk += 1;
+            if (this.compteurAtk % 3 == 0) {
+                double bashMultiplicateur = SkillBash.fromNiveau(this.niveauBash).multiplicateur;
+                int attaqueBash = (int) (this.atk * bashMultiplicateur);
+                System.out.println(this.nom + " utilise Bash !");
+                System.out.println(this.nom + " inflige " + attaqueBash + " dégâts");
+                personnage.recevoirDegats(attaqueBash);
+            }
+        }
     }
 }

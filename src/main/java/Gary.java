@@ -22,7 +22,6 @@ public class Gary {
     }
 
     private int determinerZeny(List<TypeObjet> objets, int niveauOvercharge) {
-//        int sommeTotal = objets.stream().mapToInt(value -> value.prix).sum();
         int sommeTotal = 0;
         for (TypeObjet objet : objets) {
             sommeTotal = sommeTotal + objet.prix;
@@ -31,7 +30,7 @@ public class Gary {
     }
 
     private int calculerGainOvercharge(int sommeTotal, int niveauOvercharge) {
-        int taux = Overcharge.fromNiveau(niveauOvercharge).taux;
+        int taux = SkillOvercharge.fromNiveau(niveauOvercharge).taux;
         return sommeTotal * taux / 100;
     }
 

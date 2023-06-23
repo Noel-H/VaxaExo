@@ -9,13 +9,13 @@ public abstract class Personnage {
     protected boolean vivant;
     protected List<TypeObjet> inventaire;
 
-    Personnage(String nom, int pvMax, int atk) {
-        if (nom.isEmpty()){
+    public Personnage(String nom, int pvMax, int atk) {
+        if (nom.isEmpty()) {
             nom = "Newbie";
         }
         this.nom = nom;
         this.pvMax = pvMax;
-        this.pv = pvMax;
+        this.pv = this.pvMax;
         this.atk = atk;
         this.vivant = true;
         this.inventaire = new ArrayList<>();
@@ -52,7 +52,7 @@ public abstract class Personnage {
     public void depouiller(Personnage personnage) {
         List<TypeObjet> objets = personnage.viderInventaire();
         this.inventaire.addAll(objets);
-        System.out.println(this.nom + " ramasse " + objets.size() + " objets");
+        System.out.println(nom + " ramasse " + objets.size() + " objets");
     }
 
     public void attaquer(Personnage personnage) {
@@ -63,21 +63,21 @@ public abstract class Personnage {
     }
 
     public void recupererPV(int valeur) {
-        int pvActuelle = this.pv;
-        int soin = valeur;
-        int pvRecuperer = 0;
-        this.pv = this.pv + soin;
-        if (this.pv > this.pvMax) {
-            this.pv = this.pvMax;
-            pvRecuperer = this.pvMax - pvActuelle;
-        } else {
-            pvRecuperer = soin;
+        int pvSoignes = calculerPvSoignes(pv, pvMax, valeur);
+        pv += pvSoignes;
+        System.out.println(nom + " récupère " + pvSoignes + " points de vie");
+    }
+
+    private int calculerPvSoignes(int pv, int pvMax, int valeur) {
+        int pvManquant = pvMax - pv;
+        if (pvManquant > valeur) {
+            return valeur;
         }
-        System.out.println(this.nom + " récupère " + pvRecuperer + " points de vie");
+        return pvManquant;
     }
 
     public int getPvMax() {
-        return this.pvMax;
+        return pvMax;
     }
 
     public abstract void comportementVictoire(Personnage personnage);
