@@ -106,9 +106,9 @@ public class Joueur extends Personnage {
         }
 
         if (Job.EPEISTE.equals(this.job)) {
-            this.niveauBash = Math.max(niveauxAuDelaDe10, 10);
+            this.niveauBash = Math.min(niveauxAuDelaDe10, 10);
         } else if (Job.MARCHAND.equals(this.job)) {
-            this.niveauOvercharge = Math.max(niveauxAuDelaDe10, 10);
+            this.niveauOvercharge = Math.min(niveauxAuDelaDe10, 10);
         }
     }
 
